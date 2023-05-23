@@ -32,4 +32,14 @@ public class ContentController {
     public void create(@RequestBody Content content) {
         repository.save(content);
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public void update(@PathVariable Integer id, @RequestBody Content content) {
+        if (!repository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found");
+        }
+        repository.save(content);
+    }
+
 }
