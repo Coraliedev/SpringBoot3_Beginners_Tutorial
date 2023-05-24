@@ -10,5 +10,5 @@ url VARCHAR(255),
 primary key (id)
 );
 
-INSERT INTO Content(title, description, status, content_type, date_created)
-VALUES('My Spring Data Blog post', 'This is a blog post about Spring data', 'IDEA', 'ARTICLE', CURRENT_TIMESTAMP);
+--INSERT INTO Content(title, description, status, content_type, date_created)
+--VALUES('My Spring Data Blog post', 'This is a blog post about Spring data', 'IDEA', 'ARTICLE', CURRENT_TIMESTAMP);
