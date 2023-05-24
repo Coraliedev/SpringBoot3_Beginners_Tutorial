@@ -2,6 +2,7 @@ package contentcalendar.controller;
 
 import contentcalendar.model.Content;
 import contentcalendar.repository.ContentCollectionRepository;
+import contentcalendar.repository.ContentJdbcTemplateRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,26 +14,27 @@ import java.util.List;
 @RequestMapping("api/content")
 @CrossOrigin
 public class ContentController {
-    private final ContentCollectionRepository repository;
+//    private final ContentCollectionRepository repository;
+    private final ContentJdbcTemplateRepository repository;
 
-    public ContentController(ContentCollectionRepository repository) {
+    public ContentController(ContentJdbcTemplateRepository repository) {
         this.repository = repository;
     }
 
     @GetMapping("")
     public List<Content> findAll() {
-        return repository.findAll();
+        return repository.getAllContent();
     }
 
     @GetMapping("/{id}")
     public Content findById(@PathVariable Integer id) {
-        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found"));
+        return repository.getContent(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public void create(@Valid @RequestBody Content content) {
-        repository.save(content);
+        repository.createContent(content);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -41,13 +43,14 @@ public class ContentController {
         if (!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found");
         }
-        repository.save(content);
+        System.out.println(content);
+        repository.updateContent(content, id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-        repository.delete(id);
+        repository.deleteContent(id);
     }
 
 }
